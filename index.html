@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>آخر قطرة – نموذج أولي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1f5a3c; --green2:#2f7d55; --mint:#e7f2ea; --sand:#f6f1e8; --wood:#c9a56b;
+    --ink:#1d2b24; --muted:#6b7a72; --blue:#3aa7d9; --red:#c9503f; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Tajawal',sans-serif;background:linear-gradient(160deg,#eef5ef,#f7f2e9);min-height:100vh;
+       display:flex;align-items:center;justify-content:center;color:var(--ink)}
+  .phone{width:390px;height:844px;background:var(--sand);border-radius:44px;overflow:hidden;position:relative;
+         box-shadow:0 30px 80px rgba(31,90,60,.25),0 0 0 10px #17231d;display:flex;flex-direction:column}
+  body.shot{background:var(--sand);display:block;direction:ltr}
+  body.shot .phone{direction:rtl}
+  @media (max-width:500px){
+    .phone{width:100vw;height:100dvh;border-radius:0;box-shadow:none}
+    .status{display:none}
+    header{padding-top:16px}
+  }
+  body.shot .phone{box-shadow:none;border-radius:0}
+  .status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:13px;font-weight:700;color:var(--green)}
+  header{padding:6px 22px 14px;display:flex;align-items:center;gap:10px}
+  header .logo{width:40px;height:40px}
+  header h1{font-size:22px;font-weight:800;color:var(--green);line-height:1}
+  header small{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-top:3px}
+  .demo{margin-inline-start:auto;font-size:10px;background:#fff3d6;color:#8a6414;padding:4px 8px;border-radius:20px;font-weight:700}
+  main{flex:1;overflow-y:auto;padding:0 18px 18px}
+  .screen{display:none;animation:fade .35s ease}
+  .screen.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h2{font-size:18px;font-weight:800;margin:6px 4px 12px;color:var(--ink)}
+  .card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(31,90,60,.06)}
+  .hero{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;position:relative;overflow:hidden}
+  .hero .big{font-size:44px;font-weight:800;line-height:1.1}
+  .hero .lbl{font-size:13px;opacity:.85}
+  .hero .leaf{position:absolute;left:-20px;bottom:-30px;width:140px;opacity:.12}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .stat{background:#fff;border-radius:18px;padding:14px;box-shadow:0 2px 10px rgba(31,90,60,.06)}
+  .stat b{font-size:24px;color:var(--green);display:block}
+  .stat span{font-size:12px;color:var(--muted)}
+  .btn{display:block;width:100%;border:0;border-radius:16px;padding:14px;font-family:inherit;font-size:16px;font-weight:700;
+       background:var(--green);color:#fff;cursor:pointer;transition:transform .1s}
+  .btn:active{transform:scale(.98)}
+  .btn.ghost{background:var(--mint);color:var(--green)}
+  .tip{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--ink)}
+  .tip .ic{width:38px;height:38px;border-radius:12px;background:var(--mint);display:grid;place-items:center;font-size:18px;flex:none}
+  .dev{display:flex;align-items:center;gap:12px}
+  .dev .nm{font-weight:700;font-size:15px}
+  .dev .sub{font-size:12px;color:var(--muted)}
+  .tank{width:46px;height:62px;border-radius:10px;border:2px solid #cfe0d5;position:relative;overflow:hidden;flex:none;background:#f3f8f4}
+  .tank i{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#7fd0f0,var(--blue))}
+  .tank em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800;color:var(--ink)}
+  .pill{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;margin-inline-start:auto;white-space:nowrap}
+  .ok{background:#e2f4e8;color:var(--green2)} .warn{background:#fff1dc;color:#a46a00} .full{background:#fde5e1;color:var(--red)}
+  .map{height:150px;border-radius:18px;background:
+        radial-gradient(circle at 30% 40%,#cfe6d4 0 18%,transparent 19%),
+        radial-gradient(circle at 75% 65%,#cfe6d4 0 14%,transparent 15%),
+        linear-gradient(90deg,transparent 48%,#e9e2d3 48% 52%,transparent 52%),
+        linear-gradient(0deg,transparent 46%,#e9e2d3 46% 50%,transparent 50%),#eef3ec;
+        position:relative;margin-bottom:12px}
+  .pin{position:absolute;width:26px;height:26px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--green);
+       box-shadow:0 3px 8px rgba(0,0,0,.2)}
+  .pin::after{content:'';position:absolute;inset:8px;border-radius:50%;background:#fff}
+  .pin.r{background:var(--red)} .pin.y{background:#e0a020}
+  /* device sim */
+  .machine{background:linear-gradient(180deg,#fbf8f2,#ece5d8);border-radius:26px;padding:16px;position:relative;margin-bottom:12px;
+           border-top:14px solid var(--wood)}
+  .slot{height:46px;border-radius:12px;background:#22302a;position:relative;overflow:hidden;margin-bottom:12px}
+  .slot .scan{position:absolute;top:0;bottom:0;width:30%;background:linear-gradient(90deg,transparent,rgba(127,208,240,.7),transparent);left:-30%}
+  .slot.scanning .scan{animation:scan 1s linear infinite}
+  @keyframes scan{to{left:100%}}
+  .lcd{background:#1b2a24;color:#dff6ff;border-radius:16px;padding:16px;text-align:center;min-height:118px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+  .lcd .t{font-size:17px;font-weight:700}
+  .lcd .s{font-size:12px;opacity:.75}
+  .bar{height:7px;border-radius:9px;background:#33463e;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--blue);transition:width 1.4s ease}
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+  .opt{border:2px solid #e1e8e3;background:#fff;border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;color:var(--ink)}
+  .opt .e{font-size:24px;display:block;margin-bottom:2px}
+  .opt.sel{border-color:var(--green);background:var(--mint)}
+  .range{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:12px}
+  .range input{flex:1;accent-color:var(--green)}
+  .ai{font-size:12px;color:var(--muted);display:flex;gap:6px;align-items:center;margin-top:10px}
+  /* irrigation */
+  .zone{display:flex;align-items:center;gap:12px}
+  .gauge{width:64px;height:64px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:14px;position:relative}
+  .gauge::before{content:'';position:absolute;inset:7px;border-radius:50%;background:#fff}
+  .gauge span{position:relative}
+  .log{font-size:12px;color:var(--muted);line-height:1.9}
+  nav{display:flex;background:#fff;border-top:1px solid #eee;padding:8px 6px 22px}
+  nav button{flex:1;border:0;background:none;font-family:inherit;font-size:11px;font-weight:700;color:#9aa8a0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+  nav button .e{font-size:20px;filter:grayscale(1);opacity:.6}
+  nav button.on{color:var(--green)}
+  nav button.on .e{filter:none;opacity:1}
+  .toast{position:absolute;bottom:96px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--green);color:#fff;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:700;opacity:0;transition:.3s;white-space:nowrap}
+  .toast.show{opacity:1;transform:translateX(-50%)}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status"><span>9:41</span><span>●●● 📶 🔋</span></div>
+  <header>
+    <svg class="logo" viewBox="0 0 48 48"><path d="M24 4C24 4 9 21 9 30a15 15 0 0 0 30 0C39 21 24 4 24 4z" fill="none" stroke="#1f5a3c" stroke-width="3"/><path d="M17 33c3-9 10-12 16-12-1 8-6 14-16 12z" fill="#2f7d55"/></svg>
+    <div><h1>آخر قطرة</h1><small>قطرة منك.. حياة لشجرة</small></div>
+    <span class="demo">بيانات افتراضية</span>
+  </header>
+
+  <main>
+    <!-- 1 HOME -->
+    <section class="screen on" id="home">
+      <div class="card hero">
+        <div class="lbl">الماء المجمّع اليوم في الطائف</div>
+        <div class="big"><span id="liters">46.8</span> <small style="font-size:20px">لتر</small></div>
+        <div class="lbl">من عبوات كانت سترمى بما فيها 💧</div>
+        <svg class="leaf" viewBox="0 0 100 100"><path d="M10 90C20 40 50 15 95 10 90 55 60 90 10 90z" fill="#fff"/></svg>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="bottles">312</b><span>عبوة اليوم</span></div>
+        <div class="stat"><b id="trees">18</b><span>شجرة سُقيت</span></div>
+        <div class="stat"><b>850</b><span>لتر هذا الشهر</span></div>
+        <div class="stat"><b>6</b><span>أجهزة تعمل</span></div>
+      </div>
+      <button class="btn" onclick="go('devices')">📍 أقرب جهاز لي</button>
+      <div style="height:10px"></div>
+      <button class="btn ghost" onclick="go('sim')">جرّب الجهاز الآن</button>
+      <div class="card" style="margin-top:12px">
+        <div class="tip"><div class="ic">💡</div><div>لا ترمِ عبوتك وفيها ماء.. ضعها في <b>آخر قطرة</b> وخلّ الشجرة تشربها.</div></div>
+      </div>
+    </section>
+
+    <!-- 2 DEVICES -->
+    <section class="screen" id="devices">
+      <h2>الأجهزة القريبة</h2>
+      <div class="map">
+        <div class="pin" style="top:30%;right:28%"></div>
+        <div class="pin y" style="top:58%;right:62%"></div>
+        <div class="pin r" style="top:22%;right:75%"></div>
+        <div class="pin" style="top:66%;right:18%"></div>
+      </div>
+      <div id="devlist"></div>
+    </section>
+
+    <!-- 3 SIM -->
+    <section class="screen" id="sim">
+      <h2>محاكاة الجهاز</h2>
+      <div class="machine">
+        <div class="slot" id="slot"><div class="scan"></div></div>
+        <div class="lcd" id="lcd">
+          <div class="t">💧 ضع العبوة في الفتحة</div>
+          <div class="s">الجهاز جاهز</div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:13px;font-weight:700;margin-bottom:8px">ماذا في العبوة؟</div>
+        <div class="opts">
+          <button class="opt sel" data-k="water"><span class="e">💧</span>ماء</button>
+          <button class="opt" data-k="juice"><span class="e">🧃</span>عصير</button>
+          <button class="opt" data-k="soda"><span class="e">🥤</span>غازي</button>
+        </div>
+        <div class="range">المتبقي: <input type="range" id="amt" min="20" max="400" step="10" value="150"><b id="amtv">150 مل</b></div>
+        <button class="btn" id="insert">أدخل العبوة</button>
+        <div class="ai">🤖 الكاميرا والحساسات تتعرف على نوع السائل قبل جمعه</div>
+      </div>
+    </section>
+
+    <!-- 4 IRRIGATION -->
+    <section class="screen" id="irrig">
+      <h2>الري الذكي</h2>
+      <div id="zones"></div>
+      <div class="card">
+        <div style="font-weight:700;margin-bottom:6px">سجل الري</div>
+        <div class="log" id="log">
+          06:10 — سُقيت المنطقة (أ) بـ 12 لتر<br>
+          06:25 — تأجيل ري المنطقة (ب): التربة رطبة<br>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <nav>
+    <button data-s="home" class="on"><span class="e">🏠</span>الرئيسية</button>
+    <button data-s="devices"><span class="e">📍</span>الأجهزة</button>
+    <button data-s="sim"><span class="e">🧪</span>جرّب الجهاز</button>
+    <button data-s="irrig"><span class="e">🌳</span>الري الذكي</button>
+  </nav>
+</div>
+
+<script>
+const S = {liters:46.8, bottles:312, trees:18, kind:'water'};
+const devices = [
+  {n:'جهاز 01 – حديقة الحي', d:'350 م', lvl:62, st:'ok'},
+  {n:'جهاز 02 – ممشى الكورنيش', d:'1.2 كم', lvl:84, st:'warn'},
+  {n:'جهاز 03 – ساحة الفعاليات', d:'2.0 كم', lvl:100, st:'full'},
+  {n:'جهاز 04 – بوابة الملعب', d:'3.4 كم', lvl:27, st:'ok'},
+];
+const stTxt = {ok:'يعمل', warn:'يقترب من الامتلاء', full:'ممتلئ – جارِ الري'};
+document.getElementById('devlist').innerHTML = devices.map(d=>`
+  <div class="card dev">
+    <div class="tank"><i style="height:${d.lvl}%"></i><em>${d.lvl}%</em></div>
+    <div><div class="nm">${d.n}</div><div class="sub">يبعد ${d.d} · مستوى الخزان</div></div>
+    <span class="pill ${d.st}">${stTxt[d.st]}</span>
+  </div>`).join('');
+
+const zones = [{n:'المنطقة (أ) – أشجار النخيل',m:24},{n:'المنطقة (ب) – الشجيرات',m:58},{n:'المنطقة (ج) – المسطحات',m:41}];
+function drawZones(){
+  document.getElementById('zones').innerHTML = zones.map((z,i)=>{
+    const c = z.m<30?'#e0a020':'#2f7d55';
+    const need = z.m<30;
+    return `<div class="card">
+      <div class="zone">
+        <div class="gauge" style="background:conic-gradient(${c} ${z.m*3.6}deg,#e8eee9 0)"><span>${z.m}%</span></div>
+        <div style="flex:1"><div style="font-weight:700;font-size:15px">${z.n}</div>
+        <div style="font-size:12px;color:var(--muted)">رطوبة التربة · ${need?'تحتاج ري':'لا تحتاج ري الآن'}</div></div>
+      </div>
+      ${need?`<button class="btn" style="margin-top:12px" onclick="water(${i})">💧 اسقِ الآن من الماء المجمّع</button>`:''}
+    </div>`}).join('');
+}
+drawZones();
+function water(i){
+  zones[i].m = 65; drawZones();
+  document.getElementById('log').innerHTML = `${new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'})} — سُقيت ${zones[i].n.split('–')[0]} بـ 10 لتر من الماء المجمّع<br>` + document.getElementById('log').innerHTML;
+  S.trees++; document.getElementById('trees').textContent=S.trees;
+  toast('🌱 تم الري من الماء المجمّع');
+}
+
+function go(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('on',x.id===s));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
+  document.querySelector('main').scrollTop=0;
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.s));
+document.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
+  document.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel')); o.classList.add('sel'); S.kind=o.dataset.k;
+});
+const amt=document.getElementById('amt'); amt.oninput=()=>document.getElementById('amtv').textContent=amt.value+' مل';
+
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2200)}
+function lcd(t,s,bar){document.getElementById('lcd').innerHTML=`<div class="t">${t}</div>${bar?'<div class="bar"><i id="pb"></i></div>':''}<div class="s">${s}</div>`}
+
+let busy=false;
+function insert(kind, ml, instant){
+  if(busy) return; busy=true;
+  const slot=document.getElementById('slot');
+  slot.classList.add('scanning');
+  lcd('🔍 جارِ فحص العبوة…','الذكاء الاصطناعي يتعرف على نوع السائل');
+  const step2=()=>{
+    slot.classList.remove('scanning');
+    if(kind!=='water'){
+      lcd('⚠️ السائل ليس ماءً', kind==='juice'?'تم تحويل العصير إلى الصرف — لن يُستخدم للري':'تم تحويل المشروب الغازي إلى الصرف — لن يُستخدم للري');
+      busy=false; return;
+    }
+    lcd('💧 جارِ جمع الماء','تصفية وتنقية…',true);
+    const fin=()=>{
+      S.liters=+(S.liters+ml/1000).toFixed(2); S.bottles++;
+      document.getElementById('liters').textContent=S.liters; document.getElementById('bottles').textContent=S.bottles;
+      lcd(`🌱 شكراً! ساهمت بـ ${ml} مل`,'العبوة الفارغة ذهبت لحاوية إعادة التدوير ♻️');
+      busy=false;
+    };
+    if(instant){document.getElementById('pb').style.width='100%';fin()}
+    else{requestAnimationFrame(()=>document.getElementById('pb').style.width='100%');setTimeout(fin,1500)}
+  };
+  instant?step2():setTimeout(step2,1300);
+}
+document.getElementById('insert').onclick=()=>insert(S.kind,+amt.value);
+
+// screenshot helpers: ?shot=home|devices|sim|sim-ok|sim-no|irrig
+const q=new URLSearchParams(location.search).get('shot');
+if(q){document.body.classList.add('shot');
+  if(q==='sim-ok'){go('sim');insert('water',150,true)}
+  else if(q==='sim-no'){go('sim');document.querySelectorAll('.opt')[1].click();insert('juice',150,true)}
+  else go(q);
+}
+</script>
+</body>
+</html>
