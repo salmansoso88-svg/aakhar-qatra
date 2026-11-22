@@ -13,7 +13,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Tajawal',sans-serif;background:linear-gradient(160deg,#eef5ef,#f7f2e9);min-height:100vh;
        display:flex;align-items:center;justify-content:center;color:var(--ink)}
-  .phone{width:390px;height:844px;background:var(--sand);border-radius:44px;overflow:hidden;position:relative;
+  .phone{width:390px;height:min(844px,calc(100dvh - 40px));min-height:560px;background:var(--sand);border-radius:44px;overflow:hidden;position:relative;
          box-shadow:0 30px 80px rgba(31,90,60,.25),0 0 0 10px #17231d;display:flex;flex-direction:column}
   body.shot{background:var(--sand);display:block;direction:ltr}
   body.shot .phone{direction:rtl}
