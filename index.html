@@ -22,6 +22,8 @@
     .status{display:none}
     header{padding-top:16px}
   }
+  body.shot .phone{width:390px!important;height:844px!important}
+  body.shot header{padding-top:6px}
   body.shot .phone{box-shadow:none;border-radius:0}
   .status{height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 26px;font-size:13px;font-weight:700;color:var(--green)}
   header{padding:6px 22px 14px;display:flex;align-items:center;gap:10px}
@@ -224,7 +226,7 @@ function drawZones(){
 drawZones();
 function water(i){
   zones[i].m = 65; drawZones();
-  document.getElementById('log').innerHTML = `${new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'})} — سُقيت ${zones[i].n.split('–')[0]} بـ 10 لتر من الماء المجمّع<br>` + document.getElementById('log').innerHTML;
+  document.getElementById('log').innerHTML = `07:40 — سُقيت ${zones[i].n.split('–')[0]} بـ 10 لتر من الماء المجمّع<br>` + document.getElementById('log').innerHTML;
   S.trees++; document.getElementById('trees').textContent=S.trees;
   toast('🌱 تم الري من الماء المجمّع');
 }
@@ -274,6 +276,9 @@ const q=new URLSearchParams(location.search).get('shot');
 if(q){document.body.classList.add('shot');
   if(q==='sim-ok'){go('sim');insert('water',150,true)}
   else if(q==='sim-no'){go('sim');document.querySelectorAll('.opt')[1].click();insert('juice',150,true)}
+  else if(q==='sim-scan'){go('sim');document.getElementById('slot').classList.add('scanning');document.querySelector('.slot .scan').style.cssText='animation:none;left:35%';lcd('🔍 جارِ فحص العبوة…','الذكاء الاصطناعي يتعرف على نوع السائل')}
+  else if(q==='sim-juice'){go('sim');document.querySelectorAll('.opt')[1].click()}
+  else if(q==='irrig-done'){go('irrig');water(0);document.getElementById('toast').style.display='none'}
   else go(q);
 }
 </script>
